@@ -61,6 +61,11 @@ Vagrant.configure("2") do |config|
     os.endpoint = "KEYSTONE AUTH URL"      # "#{ENV['OS_AUTH_URL']}/tokens"  
     os.keypair_name = "YOUR KEYPAIR NAME"
     os.ssh_username = "SSH USERNAME"
+
+    os.security_groups = ['ssh', 'http']   # Optional
+    os.network_id = "YOUR NETWORK ID"      # Optional - defaults to 'public'
+    os.tenant = "YOUR TENANT_NAME"         # Optional
+
   end
 end
 ```
@@ -104,6 +109,10 @@ This provider exposes quite a few provider-specific configuration options:
 * `username` - The username with which to access OpenStack.
 * `keypair_name` - The name of the keypair to access the machine.
 * `ssh_username` - The username to access the machine.
+* `security_groups` - List of security groups to be applied to the machine.
+* `network_id` - Network ID.  Defaults to 'public', but some OpenStack implementations specify different network IDs, e.g. [Nectar](http://www.nectar.org.au/research-cloud]).
+* `tenant` - Tenant name.  You only need to specify this if your OpenStack user has access to multiple tenants.
+
 
 These can be set like typical provider-specific configuration:
 
