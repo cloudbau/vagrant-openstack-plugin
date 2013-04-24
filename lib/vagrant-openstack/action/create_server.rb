@@ -37,6 +37,7 @@ module VagrantPlugins
           env[:ui].info(" -- Flavor: #{flavor.name}")
           env[:ui].info(" -- Image: #{image.name}")
           env[:ui].info(" -- Name: #{server_name}")
+          env[:ui].info(" -- Security Groups: #{config.security_groups}")
 
           # Build the options for launching...
           options = {
@@ -44,7 +45,8 @@ module VagrantPlugins
             :image_ref   => image.id,
             :name        => server_name,
             :key_name    => config.keypair_name,
-            :user_data_encoded => Base64.encode64(config.user_data)
+            :user_data_encoded => Base64.encode64(config.user_data),
+            :security_groups => config.security_groups
           }
 
           # Create the server
@@ -55,7 +57,7 @@ module VagrantPlugins
 
           # Wait for the server to finish building
           env[:ui].info(I18n.t("vagrant_openstack.waiting_for_build"))
-          retryable(:on => Timeout::Error, :tries => 200) do
+          retryable(:on => Fog::Errors::TimeoutError, :tries => 200) do
             # If we're interrupted don't worry about waiting
             next if env[:interrupted]
 

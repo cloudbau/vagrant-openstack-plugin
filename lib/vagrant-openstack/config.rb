@@ -22,6 +22,11 @@ module VagrantPlugins
       # expression to partially match a name.
       attr_accessor :image
 
+      # The network ID. Defaults to 'public'.
+      #
+      # @return [String]
+      attr_accessor :network_id
+
       # The name of the server. This defaults to the name of the machine
       # defined by Vagrant (via `config.vm.define`), but can be overriden
       # here.
@@ -37,11 +42,22 @@ module VagrantPlugins
       # @return [String]
       attr_accessor :keypair_name
 
+      # List of strings representing the security groups to apply.
+      # e.g. ['ssh', 'http']
+      #
+      # @return [Array[String]]
+      attr_accessor :security_groups
+
       # The SSH username to use with this OpenStack instance. This overrides
       # the `config.ssh.username` variable.
       #
       # @return [String]
       attr_accessor :ssh_username
+
+      # The tenant to use.
+      #
+      # @return [String]
+      attr_accessor :tenant
 
       # User data to be sent to the newly created OpenStack instance. Use this
       # e.g. to inject a script at boot time.
@@ -54,10 +70,13 @@ module VagrantPlugins
         @endpoint = UNSET_VALUE
         @flavor   = UNSET_VALUE
         @image    = UNSET_VALUE
+        @network_id = UNSET_VALUE
         @server_name = UNSET_VALUE
         @username = UNSET_VALUE
         @keypair_name = UNSET_VALUE
+        @security_groups = UNSET_VALUE
         @ssh_username = UNSET_VALUE
+        @tenant = UNSET_VALUE
         @user_data = UNSET_VALUE
       end
 
@@ -66,16 +85,20 @@ module VagrantPlugins
         @endpoint = nil if @endpoint == UNSET_VALUE
         @flavor   = /m1.tiny/ if @flavor == UNSET_VALUE
         @image    = /cirros/ if @image == UNSET_VALUE
+        @network_id = 'public' if @network_id == UNSET_VALUE
         @server_name = nil if @server_name == UNSET_VALUE
         @username = nil if @username == UNSET_VALUE
 
         # Keypair defaults to nil
         @keypair_name = nil if @keypair_name == UNSET_VALUE
-        
+
+        @security_groups = nil if @security_groups == UNSET_VALUE
+
         # The SSH values by default are nil, and the top-level config
         # `config.ssh` values are used.
         @ssh_username = nil if @ssh_username == UNSET_VALUE
-        
+
+        @tenant = nil if @tenant == UNSET_VALUE
         @user_data = "" if @user_data == UNSET_VALUE
       end
 
