@@ -4,7 +4,7 @@ require "vagrant-openstack-plugin/plugin"
 
 module VagrantPlugins
   module OpenStack
-    lib_path = Pathname.new(File.expand_path("../vagrant-openstack", __FILE__))
+    lib_path = Pathname.new(File.expand_path("../vagrant-openstack-plugin", __FILE__))
     autoload :Errors, lib_path.join("errors")
 
     # This initializes the i18n load path so that the plugin-specific

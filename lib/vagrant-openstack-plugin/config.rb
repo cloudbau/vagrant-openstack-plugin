@@ -36,6 +36,11 @@ module VagrantPlugins
       #
       # @return [String]
       attr_accessor :keypair_name
+      
+      # Network configurations for the instance
+      #
+      # @return [String]
+      attr_accessor :network
 
       # The SSH username to use with this OpenStack instance. This overrides
       # the `config.ssh.username` variable.
@@ -57,6 +62,7 @@ module VagrantPlugins
         @server_name = UNSET_VALUE
         @username = UNSET_VALUE
         @keypair_name = UNSET_VALUE
+        @network  = UNSET_VALUE
         @ssh_username = UNSET_VALUE
         @user_data = UNSET_VALUE
       end
@@ -68,6 +74,7 @@ module VagrantPlugins
         @image    = /cirros/ if @image == UNSET_VALUE
         @server_name = nil if @server_name == UNSET_VALUE
         @username = nil if @username == UNSET_VALUE
+        @network = nil if @network == UNSET_VALUE
 
         # Keypair defaults to nil
         @keypair_name = nil if @keypair_name == UNSET_VALUE

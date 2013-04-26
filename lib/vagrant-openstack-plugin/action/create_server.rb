@@ -46,6 +46,12 @@ module VagrantPlugins
             :key_name    => config.keypair_name,
             :user_data_encoded => Base64.encode64(config.user_data)
           }
+          
+          # Find a network if provided
+          if config.network
+            network = find_matching(env[:openstack_network].networks, config.network)
+            options[:nics] = [{"net_id" => network.id}] if network
+          end
 
           # Create the server
           server = env[:openstack_compute].servers.create(options)

@@ -31,7 +31,11 @@ module VagrantPlugins
 
           config = machine.provider_config
 
-          host = server.addresses['public'].last['addr'] rescue nil
+          if config.network
+            host = server.addresses[config.network].last['addr'] rescue nil
+          else
+            host = server.addresses['public'].last['addr'] rescue nil
+          end
           # Read the DNS info
           return {
             # Usually there should only be one public IP

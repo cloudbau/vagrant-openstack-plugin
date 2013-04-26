@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.summary       = "Enables Vagrant to manage machines in OpenStack Cloud."
   gem.homepage      = "http://www.vagrantup.com"
 
-  gem.add_runtime_dependency "fog"
+  gem.add_runtime_dependency "fog", ">= 1.10.1"
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec", "~> 2.13.0"

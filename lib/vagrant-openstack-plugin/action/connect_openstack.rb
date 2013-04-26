@@ -28,6 +28,15 @@ module VagrantPlugins
             :openstack_auth_url => endpoint
           })
 
+          if config.network
+            env[:openstack_network] = Fog::Network.new({
+              :provider => :openstack,
+              :openstack_username => username,
+              :openstack_api_key => api_key,
+              :openstack_auth_url => endpoint
+            })
+          end
+
           @app.call(env)
         end
       end
