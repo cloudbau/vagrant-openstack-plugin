@@ -48,6 +48,11 @@ module VagrantPlugins
       # @return [String]
       attr_accessor :ssh_username
 
+      # A Hash of metadata that will be sent to the instance for configuration
+      #
+      # @return [Hash]
+      attr_accessor :metadata
+
       # User data to be sent to the newly created OpenStack instance. Use this
       # e.g. to inject a script at boot time.
       #
@@ -60,6 +65,7 @@ module VagrantPlugins
         @flavor   = UNSET_VALUE
         @image    = UNSET_VALUE
         @server_name = UNSET_VALUE
+        @metatdata = UNSET_VALUE
         @username = UNSET_VALUE
         @keypair_name = UNSET_VALUE
         @network  = UNSET_VALUE
@@ -73,6 +79,7 @@ module VagrantPlugins
         @flavor   = /m1.tiny/ if @flavor == UNSET_VALUE
         @image    = /cirros/ if @image == UNSET_VALUE
         @server_name = nil if @server_name == UNSET_VALUE
+        @metadata = {} if @metadata == UNSET_VALUE
         @username = nil if @username == UNSET_VALUE
         @network = nil if @network == UNSET_VALUE
 
@@ -91,6 +98,7 @@ module VagrantPlugins
 
         errors << I18n.t("vagrant_openstack.config.api_key_required") if !@api_key
         errors << I18n.t("vagrant_openstack.config.username_required") if !@username
+        errors << I18n.t("vagrant_openstack.config.metadata_must_be_hash") if !@metadata.is_a?(Hash) 
         
         { "OpenStack Provider" => errors }
       end

@@ -30,6 +30,8 @@ en:
         An API key is required.
       username_required: |-
         A username is required.
+      metadata_must_be_hash: |-
+        Metadata must be a hash.
 
     errors:
       create_bad_state: |-

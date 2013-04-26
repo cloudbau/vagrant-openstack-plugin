@@ -44,6 +44,7 @@ module VagrantPlugins
             :image_ref   => image.id,
             :name        => server_name,
             :key_name    => config.keypair_name,
+            :metadata    => config.metadata,
             :user_data_encoded => Base64.encode64(config.user_data)
           }
           
