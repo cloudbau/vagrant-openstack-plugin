@@ -19,6 +19,8 @@ describe VagrantPlugins::OpenStack::Config do
     its(:keypair_name) { should be_nil }
     its(:ssh_username) { should be_nil }
     its(:network) { should be_nil }
+    its(:security_groups) { should be_nil }
+    its(:tenant) { should be_nil }
   end
 
   describe "overriding defaults" do
@@ -30,7 +32,9 @@ describe VagrantPlugins::OpenStack::Config do
       :username,
       :keypair_name,
       :network,
-      :ssh_username].each do |attribute|
+      :ssh_username,
+      :security_groups,
+      :tenant].each do |attribute|
       it "should not default #{attribute} if overridden" do
         subject.send("#{attribute}=".to_sym, "foo")
         subject.finalize!

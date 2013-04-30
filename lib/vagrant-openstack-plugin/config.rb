@@ -42,6 +42,12 @@ module VagrantPlugins
       # @return [String]
       attr_accessor :network
 
+      # List of strings representing the security groups to apply.
+      # e.g. ['ssh', 'http']
+      #
+      # @return [Array[String]]
+      attr_accessor :security_groups
+
       # The SSH username to use with this OpenStack instance. This overrides
       # the `config.ssh.username` variable.
       #
@@ -52,6 +58,11 @@ module VagrantPlugins
       #
       # @return [Hash]
       attr_accessor :metadata
+
+      # The tenant to use.
+      #
+      # @return [String]
+      attr_accessor :tenant
 
       # User data to be sent to the newly created OpenStack instance. Use this
       # e.g. to inject a script at boot time.
@@ -69,7 +80,9 @@ module VagrantPlugins
         @username = UNSET_VALUE
         @keypair_name = UNSET_VALUE
         @network  = UNSET_VALUE
+        @security_groups = UNSET_VALUE
         @ssh_username = UNSET_VALUE
+        @tenant = UNSET_VALUE
         @user_data = UNSET_VALUE
       end
 
@@ -85,11 +98,14 @@ module VagrantPlugins
 
         # Keypair defaults to nil
         @keypair_name = nil if @keypair_name == UNSET_VALUE
-        
+
+        @security_groups = nil if @security_groups == UNSET_VALUE
+
         # The SSH values by default are nil, and the top-level config
         # `config.ssh` values are used.
         @ssh_username = nil if @ssh_username == UNSET_VALUE
-        
+
+        @tenant = nil if @tenant == UNSET_VALUE
         @user_data = "" if @user_data == UNSET_VALUE
       end
 

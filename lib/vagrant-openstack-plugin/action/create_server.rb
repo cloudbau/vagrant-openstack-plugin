@@ -37,6 +37,7 @@ module VagrantPlugins
           env[:ui].info(" -- Flavor: #{flavor.name}")
           env[:ui].info(" -- Image: #{image.name}")
           env[:ui].info(" -- Name: #{server_name}")
+          env[:ui].info(" -- Security Groups: #{config.security_groups}")
 
           # Build the options for launching...
           options = {
@@ -45,7 +46,8 @@ module VagrantPlugins
             :name        => server_name,
             :key_name    => config.keypair_name,
             :metadata    => config.metadata,
-            :user_data_encoded => Base64.encode64(config.user_data)
+            :user_data_encoded => Base64.encode64(config.user_data),
+            :security_groups => config.security_groups
           }
           
           # Find a network if provided
