@@ -92,7 +92,7 @@ module VagrantPlugins
         @flavor   = /m1.tiny/ if @flavor == UNSET_VALUE
         @image    = /cirros/ if @image == UNSET_VALUE
         @server_name = nil if @server_name == UNSET_VALUE
-        @metadata = {} if @metadata == UNSET_VALUE
+        @metadata = nil if @metadata == UNSET_VALUE
         @username = nil if @username == UNSET_VALUE
         @network = nil if @network == UNSET_VALUE
 
@@ -114,7 +114,6 @@ module VagrantPlugins
 
         errors << I18n.t("vagrant_openstack.config.api_key_required") if !@api_key
         errors << I18n.t("vagrant_openstack.config.username_required") if !@username
-        errors << I18n.t("vagrant_openstack.config.metadata_must_be_hash") if !@metadata.is_a?(Hash) 
         
         { "OpenStack Provider" => errors }
       end

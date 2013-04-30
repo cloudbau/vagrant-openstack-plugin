@@ -32,13 +32,6 @@ module VagrantPlugins
           # Figure out the name for the server
           server_name = config.server_name || env[:machine].name
 
-          # Output the settings we're going to use to the user
-          env[:ui].info(I18n.t("vagrant_openstack.launching_server"))
-          env[:ui].info(" -- Flavor: #{flavor.name}")
-          env[:ui].info(" -- Image: #{image.name}")
-          env[:ui].info(" -- Name: #{server_name}")
-          env[:ui].info(" -- Security Groups: #{config.security_groups}")
-
           # Build the options for launching...
           options = {
             :flavor_ref  => flavor.id,
@@ -52,8 +45,21 @@ module VagrantPlugins
           
           # Find a network if provided
           if config.network
+            env[:ui].info(I18n.t("vagrant_openstack.finding_network"))
             network = find_matching(env[:openstack_network].networks, config.network)
             options[:nics] = [{"net_id" => network.id}] if network
+          end
+          
+          # Output the settings we're going to use to the user
+          env[:ui].info(I18n.t("vagrant_openstack.launching_server"))
+          env[:ui].info(" -- Flavor: #{flavor.name}")
+          env[:ui].info(" -- Image: #{image.name}")
+          env[:ui].info(" -- Name: #{server_name}")
+          if network
+            env[:ui].info(" -- Network: #{network.name}")
+          end
+          if config.security_groups
+            env[:ui].info(" -- Security Groups: #{config.security_groups}")
           end
 
           # Create the server

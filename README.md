@@ -53,6 +53,9 @@ require 'vagrant-openstack-plugin'
 Vagrant.configure("2") do |config|
   config.vm.box = "dummy"
 
+  # Make sure the private key from the key pair is provided
+  config.ssh.private_key_path = "~/.ssh/id_rsa"
+
   config.vm.provider :openstack do |os|    # e.g.
     os.username = "YOUR USERNAME"          # "#{ENV['OS_USERNAME']}"
     os.api_key  = "YOUR API KEY"           # "#{ENV['OS_PASSWORD']}" 
@@ -62,6 +65,8 @@ Vagrant.configure("2") do |config|
     os.keypair_name = "YOUR KEYPAIR NAME"
     os.ssh_username = "SSH USERNAME"
 
+    os.metadata = {"key" => "value"}       # Optional
+    os.network = "YOUR NETWORK_NAME"       # Optional
     os.security_groups = ['ssh', 'http']   # Optional
     os.tenant = "YOUR TENANT_NAME"         # Optional
 
@@ -107,7 +112,13 @@ This provider exposes quite a few provider-specific configuration options:
   can be overridden with this.
 * `username` - The username with which to access OpenStack.
 * `keypair_name` - The name of the keypair to access the machine.
-* `ssh_username` - The username to access the machine.
+* `ssh_username` - The username to access the machine. This can also be
+  configured using the standard config.ssh.username configuration value.
+* `metadata` - A set of key pair values that will be passed to the instance
+  for configuration.
+* `network` - A name or id that will be used to fetch network configuration
+  data when configuring the instance. NOTE: This is not compliant with the
+  vagrant network configurations.
 * `security_groups` - List of security groups to be applied to the machine.
 * `tenant` - Tenant name.  You only need to specify this if your OpenStack user has access to multiple tenants.
 
