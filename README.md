@@ -67,6 +67,7 @@ Vagrant.configure("2") do |config|
 
     os.metadata = {"key" => "value"}       # Optional
     os.network = "YOUR NETWORK_NAME"       # Optional
+    os.address_id = "YOUR ADDRESS ID"      # Optional (`network` above has higher precedence)
     os.security_groups = ['ssh', 'http']   # Optional
     os.tenant = "YOUR TENANT_NAME"         # Optional
 
@@ -119,6 +120,8 @@ This provider exposes quite a few provider-specific configuration options:
 * `network` - A name or id that will be used to fetch network configuration
   data when configuring the instance. NOTE: This is not compliant with the
   vagrant network configurations.
+* `address_id` - A specific address identifier to use when connecting to the
+  instance. `network` has higher precedence.
 * `security_groups` - List of security groups to be applied to the machine.
 * `tenant` - Tenant name.  You only need to specify this if your OpenStack user has access to multiple tenants.
 
