@@ -64,10 +64,12 @@ Vagrant.configure("2") do |config|
     os.endpoint = "KEYSTONE AUTH URL"      # "#{ENV['OS_AUTH_URL']}/tokens"  
     os.keypair_name = "YOUR KEYPAIR NAME"
     os.ssh_username = "SSH USERNAME"
-
     os.metadata = {"key" => "value"}       # Optional
     os.network = "YOUR NETWORK_NAME"       # Optional
     os.address_id = "YOUR ADDRESS ID"      # Optional (`network` above has higher precedence)
+    os.scheduler_hints = {
+        :cell => 'australia'
+    }                                      # Optional
     os.security_groups = ['ssh', 'http']   # Optional
     os.tenant = "YOUR TENANT_NAME"         # Optional
 
@@ -122,6 +124,7 @@ This provider exposes quite a few provider-specific configuration options:
   vagrant network configurations.
 * `address_id` - A specific address identifier to use when connecting to the
   instance. `network` has higher precedence.
+* `scheduler_hints` - Pass hints to the open stack scheduler, see `--hint` flag in [OpenStack filters doc](http://docs.openstack.org/trunk/openstack-compute/admin/content/scheduler-filters.html)
 * `security_groups` - List of security groups to be applied to the machine.
 * `tenant` - Tenant name.  You only need to specify this if your OpenStack user has access to multiple tenants.
 

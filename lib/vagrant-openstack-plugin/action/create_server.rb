@@ -40,7 +40,8 @@ module VagrantPlugins
             :key_name    => config.keypair_name,
             :metadata    => config.metadata,
             :user_data_encoded => Base64.encode64(config.user_data),
-            :security_groups => config.security_groups
+            :security_groups => config.security_groups,
+            :os_scheduler_hints => config.scheduler_hints
           }
           
           # Find a network if provided

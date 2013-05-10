@@ -20,6 +20,7 @@ describe VagrantPlugins::OpenStack::Config do
     its(:ssh_username) { should be_nil }
     its(:network) { should be_nil }
     its(:security_groups) { should be_nil }
+    its(:scheduler_hints) { should be_nil }
     its(:tenant) { should be_nil }
   end
 
@@ -34,6 +35,7 @@ describe VagrantPlugins::OpenStack::Config do
       :network,
       :ssh_username,
       :security_groups,
+      :scheduler_hints,
       :tenant].each do |attribute|
       it "should not default #{attribute} if overridden" do
         subject.send("#{attribute}=".to_sym, "foo")

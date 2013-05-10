@@ -47,6 +47,9 @@ module VagrantPlugins
       #
       attr_accessor :address_id
 
+      # Pass hints to the OpenStack scheduler, e.g. { "cell": "some cell name" }
+      attr_accessor :scheduler_hints
+
       # List of strings representing the security groups to apply.
       # e.g. ['ssh', 'http']
       #
@@ -86,6 +89,7 @@ module VagrantPlugins
         @keypair_name = UNSET_VALUE
         @network  = UNSET_VALUE
         @address_id  = UNSET_VALUE
+        @scheduler_hints = UNSET_VALUE
         @security_groups = UNSET_VALUE
         @ssh_username = UNSET_VALUE
         @tenant = UNSET_VALUE
@@ -106,6 +110,7 @@ module VagrantPlugins
         # Keypair defaults to nil
         @keypair_name = nil if @keypair_name == UNSET_VALUE
 
+        @scheduler_hints = nil if @scheduler_hints == UNSET_VALUE
         @security_groups = nil if @security_groups == UNSET_VALUE
 
         # The SSH values by default are nil, and the top-level config
