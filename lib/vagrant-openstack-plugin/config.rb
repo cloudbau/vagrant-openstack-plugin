@@ -77,7 +77,11 @@ module VagrantPlugins
       #
       # @return [String]
       attr_accessor :user_data
-
+      
+      # The floating IP address from the IP pool which will be assigned to the instance.
+      #
+      # @return [String]
+      attr_accessor :floating_ip
       def initialize
         @api_key  = UNSET_VALUE
         @endpoint = UNSET_VALUE
@@ -94,6 +98,7 @@ module VagrantPlugins
         @ssh_username = UNSET_VALUE
         @tenant = UNSET_VALUE
         @user_data = UNSET_VALUE
+        @floating_ip = UNSET_VALUE
       end
 
       def finalize!
@@ -119,6 +124,7 @@ module VagrantPlugins
 
         @tenant = nil if @tenant == UNSET_VALUE
         @user_data = "" if @user_data == UNSET_VALUE
+        @floating_ip = nil if @floating_ip == UNSET_VALUE
       end
 
       def validate(machine)

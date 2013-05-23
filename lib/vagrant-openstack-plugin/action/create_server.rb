@@ -82,6 +82,12 @@ module VagrantPlugins
             # Wait for the server to be ready
             begin
               server.wait_for(5) { ready? }
+              # Once the server is up and running assign a floating IP if we have one
+              if config.floating_ip
+                env[:ui].info( "Using floating IP #{config.floating_ip}")
+                floater = env[:openstack_compute].addresses.find { |thisone| thisone.ip.eql? config.floating_ip }
+                floater.server = server
+              end
             rescue RuntimeError => e
               # If we don't have an error about a state transition, then
               # we just move on.
