@@ -72,6 +72,7 @@ module VagrantPlugins
             b2.use ConnectOpenStack
             b2.use Provision
             b2.use SyncFolders
+            b2.use SetHostname
             b2.use WarnNetworks
             b2.use CreateServer
           end
