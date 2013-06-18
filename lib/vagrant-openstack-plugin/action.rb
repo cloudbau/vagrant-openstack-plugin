@@ -62,6 +62,7 @@ module VagrantPlugins
 
       def self.action_up
         Vagrant::Action::Builder.new.tap do |b|
+          b.use HandleBoxUrl
           b.use ConfigValidate
           b.use Call, IsCreated do |env, b2|
             if env[:result]
