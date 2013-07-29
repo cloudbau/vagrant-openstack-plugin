@@ -50,6 +50,9 @@ module VagrantPlugins
       # Pass hints to the OpenStack scheduler, e.g. { "cell": "some cell name" }
       attr_accessor :scheduler_hints
 
+      # Specify the availability zone in which to create the instance
+      attr_accessor :availability_zone
+
       # List of strings representing the security groups to apply.
       # e.g. ['ssh', 'http']
       #
@@ -94,6 +97,7 @@ module VagrantPlugins
         @network  = UNSET_VALUE
         @address_id  = UNSET_VALUE
         @scheduler_hints = UNSET_VALUE
+        @availability_zone = UNSET_VALUE
         @security_groups = UNSET_VALUE
         @ssh_username = UNSET_VALUE
         @tenant = UNSET_VALUE
@@ -116,6 +120,7 @@ module VagrantPlugins
         @keypair_name = nil if @keypair_name == UNSET_VALUE
 
         @scheduler_hints = nil if @scheduler_hints == UNSET_VALUE
+        @availability_zone = nil if @availability_zone == UNSET_VALUE
         @security_groups = nil if @security_groups == UNSET_VALUE
 
         # The SSH values by default are nil, and the top-level config

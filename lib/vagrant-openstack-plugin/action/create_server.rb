@@ -41,7 +41,8 @@ module VagrantPlugins
             :metadata    => config.metadata,
             :user_data   => config.user_data,
             :security_groups => config.security_groups,
-            :os_scheduler_hints => config.scheduler_hints
+            :os_scheduler_hints => config.scheduler_hints,
+            :availability_zone => config.availability_zone
           }
           
           # Find a network if provided

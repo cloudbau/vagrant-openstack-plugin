@@ -70,6 +70,7 @@ Vagrant.configure("2") do |config|
     os.scheduler_hints = {
         :cell => 'australia'
     }                                      # Optional
+    os.availability_zone = "az0001"        # Optional
     os.security_groups = ['ssh', 'http']   # Optional
     os.tenant = "YOUR TENANT_NAME"         # Optional
     os.floating_ip = "33.33.33.33"         # Optional (The floating IP to assign for this instance)
@@ -125,6 +126,8 @@ This provider exposes quite a few provider-specific configuration options:
 * `address_id` - A specific address identifier to use when connecting to the
   instance. `network` has higher precedence.
 * `scheduler_hints` - Pass hints to the open stack scheduler, see `--hint` flag in [OpenStack filters doc](http://docs.openstack.org/trunk/openstack-compute/admin/content/scheduler-filters.html)
+* `availability_zone` - Specify the availability zone in which the instance
+  must be created.
 * `security_groups` - List of security groups to be applied to the machine.
 * `tenant` - Tenant name.  You only need to specify this if your OpenStack user has access to multiple tenants.
 
