@@ -58,10 +58,10 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider :openstack do |os|
     os.username     = "YOUR USERNAME"          # e.g. "#{ENV['OS_USERNAME']}"
-    os.api_key      = "YOUR API KEY"           # e.g. "#{ENV['OS_PASSWORD']}" 
+    os.api_key      = "YOUR API KEY"           # e.g. "#{ENV['OS_PASSWORD']}"
     os.flavor       = /m1.tiny/                # Regex or String
     os.image        = /Ubuntu/                 # Regex or String
-    os.endpoint     = "KEYSTONE AUTH URL"      # e.g. "#{ENV['OS_AUTH_URL']}/tokens"  
+    os.endpoint     = "KEYSTONE AUTH URL"      # e.g. "#{ENV['OS_AUTH_URL']}/tokens"
     os.keypair_name = "YOUR KEYPAIR NAME"      # as stored in Nova
     os.ssh_username = "SSH USERNAME"           # login for the VM
 
@@ -132,6 +132,7 @@ This provider exposes quite a few provider-specific configuration options:
   must be created.
 * `security_groups` - List of security groups to be applied to the machine.
 * `tenant` - Tenant name.  You only need to specify this if your OpenStack user has access to multiple tenants.
+* `region` - Region Name. Specify the region you want the instance to be launched in for multi-region environments.
 
 
 These can be set like typical provider-specific configuration:

@@ -20,6 +20,7 @@ module VagrantPlugins
           endpoint = config.endpoint
           username = config.username
           tenant = config.tenant
+          region = config.region
 
           @logger.info("Connecting to OpenStack...")
           env[:openstack_compute] = Fog::Compute.new({
@@ -27,7 +28,8 @@ module VagrantPlugins
             :openstack_username => username,
             :openstack_api_key => api_key,
             :openstack_auth_url => endpoint,
-            :openstack_tenant => tenant
+            :openstack_tenant => tenant,
+            :openstack_region => region
           })
 
           if config.network
