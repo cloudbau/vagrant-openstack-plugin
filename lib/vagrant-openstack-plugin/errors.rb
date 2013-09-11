@@ -22,6 +22,10 @@ module VagrantPlugins
       class RsyncError < VagrantOpenStackError
         error_key(:rsync_error)
       end
+
+      class SSHNoValidHost < VagrantOpenStackError
+        error_key(:ssh_no_valid_host)
+      end
     end
   end
 end
