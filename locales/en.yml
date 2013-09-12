@@ -54,7 +54,14 @@ en:
         Host path: %{hostpath}
         Guest path: %{guestpath}
         Error: %{stderr}
-
+      ssh_no_valid_host: |-
+        Unable to determine what host to connect to. Run `vagrant up` in
+        debug mode to see a list of networks available to your tenant.
+        Then set either `os.network` or `os.address_id` to one of the
+        network names.
+      floating_ip_not_valid: |-
+        The floating IP specified in the Vagrantfile does not match an
+        available public IP address returned by OpenStack.
     states:
       short_active: |-
         active
