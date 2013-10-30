@@ -126,14 +126,16 @@ This provider exposes quite a few provider-specific configuration options:
   data when configuring the instance. NOTE: This is not compliant with the
   vagrant network configurations.
 * `address_id` - A specific address identifier to use when connecting to the
-  instance. `network` has higher precedence.
+  instance. `network` has higher precedence. If set to :floating_ip, then 
+  the floating IP address will be used. 
 * `scheduler_hints` - Pass hints to the open stack scheduler, see `--hint` flag in [OpenStack filters doc](http://docs.openstack.org/trunk/openstack-compute/admin/content/scheduler-filters.html)
 * `availability_zone` - Specify the availability zone in which the instance
   must be created.
 * `security_groups` - List of security groups to be applied to the machine.
 * `tenant` - Tenant name.  You only need to specify this if your OpenStack user has access to multiple tenants.
 * `region` - Region Name. Specify the region you want the instance to be launched in for multi-region environments.
-
+* `floating_ip` - Floating ip. The floating IP to assign for this instance. If
+  set to :auto, then this assigns any available floating IP to the instance.
 
 These can be set like typical provider-specific configuration:
 

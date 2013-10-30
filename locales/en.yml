@@ -62,6 +62,9 @@ en:
       floating_ip_not_valid: |-
         The floating IP specified in the Vagrantfile does not match an
         available public IP address returned by OpenStack.
+      floating_ip_not_found: |-
+        A floating IP could not be allocated, as no available floating 
+        IPs were found in OpenStack
     states:
       short_active: |-
         active

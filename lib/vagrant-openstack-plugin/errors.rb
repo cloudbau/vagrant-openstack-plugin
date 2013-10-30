@@ -30,6 +30,10 @@ module VagrantPlugins
       class FloatingIPNotValid < VagrantOpenStackError
         error_key(:floating_ip_not_valid)
       end
+      
+      class FloatingIPNotFound < VagrantOpenStackError
+        error_key(:floating_ip_not_found)
+      end
     end
   end
 end

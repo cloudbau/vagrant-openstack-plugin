@@ -12,12 +12,12 @@ module VagrantPlugins
         end
 
         def call(env)
-          env[:machine_ssh_info] = read_ssh_info(env[:openstack_compute], env[:machine])
+          env[:machine_ssh_info] = read_ssh_info(env[:openstack_compute], env[:machine], env[:floating_ip])
 
           @app.call(env)
         end
 
-        def read_ssh_info(openstack, machine)
+        def read_ssh_info(openstack, machine, floating_ip)
           return nil if machine.id.nil?
 
           # Find the machine
@@ -39,7 +39,11 @@ module VagrantPlugins
           if config.network
             host = server.addresses[config.network].last['addr'] rescue nil
           else
-            host = server.addresses[config.address_id].last['addr'] rescue nil
+            if config.address_id.to_sym == :floating_ip
+              host = floating_ip
+            else
+              host = server.addresses[config.address_id].last['addr'] rescue nil
+            end
           end
 
           # If host is still nil, try to find the IP address another way
@@ -47,10 +51,10 @@ module VagrantPlugins
             @logger.debug("Was unable to determine what network to use. Trying to find a valid IP to use.")
             if server.public_ip_addresses.length > 0
               @logger.debug("Public IP addresses available: #{server.public_ip_addresses}")
-              if config.floating_ip
-                if server.public_ip_addresses.include?(config.floating_ip)
+              if floating_ip
+                if server.public_ip_addresses.include?(floating_ip)
                   @logger.debug("Using the floating IP defined in Vagrantfile.")
-                  host = config.floating_ip
+                  host = floating_ip
                 else
                   @logger.debug("The floating IP that was specified is not available to this instance.")
                   raise Errors::FloatingIPNotValid
