@@ -54,7 +54,7 @@ module VagrantPlugins
               if floating_ip
                 if server.public_ip_addresses.include?(floating_ip)
                   @logger.debug("Using the floating IP defined in Vagrantfile.")
-                  host = machine.floating_ip
+                  host = floating_ip
                 else
                   @logger.debug("The floating IP that was specified is not available to this instance.")
                   raise Errors::FloatingIPNotValid
