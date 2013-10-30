@@ -101,6 +101,10 @@ module VagrantPlugins
                 floater = env[:openstack_compute].addresses.find { |thisone| thisone.ip.eql? floating_ip }
                 floater.server = server
               end
+              
+              # store this so we can use it later
+              env[:floating_ip] = floating_ip
+              
             rescue RuntimeError => e
               # If we don't have an error about a state transition, then
               # we just move on.
