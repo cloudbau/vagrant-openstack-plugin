@@ -84,9 +84,21 @@ module VagrantPlugins
             begin
               server.wait_for(5) { ready? }
               # Once the server is up and running assign a floating IP if we have one
-              if config.floating_ip
-                env[:ui].info( "Using floating IP #{config.floating_ip}")
-                floater = env[:openstack_compute].addresses.find { |thisone| thisone.ip.eql? config.floating_ip }
+              floating_ip = config.floating_ip
+              # try to automatically allocate a floating IP
+              if floating_ip.to_sym == :auto
+                addresses = env[:openstack_compute].addresses
+                puts addresses
+                free_floating = addresses.find_index {|a| a.fixed_ip.nil?}
+                if free_floating.nil?
+                  raise Errors::FloatingIPNotFound
+                end
+                floating_ip = addresses[free_floating].ip
+              end
+                
+              if floating_ip
+                env[:ui].info( "Using floating IP #{floating_ip}")
+                floater = env[:openstack_compute].addresses.find { |thisone| thisone.ip.eql? floating_ip }
                 floater.server = server
               end
             rescue RuntimeError => e
