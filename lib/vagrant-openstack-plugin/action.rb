@@ -88,6 +88,7 @@ module VagrantPlugins
             b2.use Provision
             b2.use SyncFolders
             b2.use SetHostname
+            b2.use DisableRequiretty
             b2.use WarnNetworks
             b2.use CreateServer
           end
@@ -114,6 +115,7 @@ module VagrantPlugins
       autoload :ConnectOpenStack, action_root.join("connect_openstack")
       autoload :CreateServer, action_root.join("create_server")
       autoload :DeleteServer, action_root.join("delete_server")
+      autoload :DisableRequiretty, action_root.join("disable_requiretty")
       autoload :IsCreated, action_root.join("is_created")
       autoload :MessageAlreadyCreated, action_root.join("message_already_created")
       autoload :MessageNotCreated, action_root.join("message_not_created")

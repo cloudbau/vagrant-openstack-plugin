@@ -76,6 +76,7 @@ Vagrant.configure("2") do |config|
     os.security_groups    = ['ssh', 'http']    # optional
     os.tenant             = "YOUR TENANT_NAME" # optional
     os.floating_ip        = "33.33.33.33"      # optional (The floating IP to assign for this instance)
+    os.disable_requiretty = true               # optional
   end
 end
 ```
@@ -133,7 +134,11 @@ This provider exposes quite a few provider-specific configuration options:
 * `security_groups` - List of security groups to be applied to the machine.
 * `tenant` - Tenant name.  You only need to specify this if your OpenStack user has access to multiple tenants.
 * `region` - Region Name. Specify the region you want the instance to be launched in for multi-region environments.
-
+* `disable_requiretty` - (default: `true`) After the VM boots run a script
+  that will comment out the line `Defaults requiretty` in `/etc/sudoers`.
+  Useful for newer versions of RedHat/CentOS.  In order for this to work
+  `ssh_userame` must be a able to write to `/etc/sudoers` without sudo (root).
+  On distribtions without `Disable requiretty` the script has no effect.
 
 These can be set like typical provider-specific configuration:
 
