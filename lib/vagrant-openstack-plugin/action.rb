@@ -88,6 +88,7 @@ module VagrantPlugins
             b2.use Provision
             b2.use SyncFolders
             b2.use SetHostname
+            b2.use SetupUser
             b2.use WarnNetworks
             b2.use CreateServer
           end
@@ -119,6 +120,7 @@ module VagrantPlugins
       autoload :MessageNotCreated, action_root.join("message_not_created")
       autoload :ReadSSHInfo, action_root.join("read_ssh_info")
       autoload :ReadState, action_root.join("read_state")
+      autoload :SetupUser, action_root.join("setup_user")
       autoload :SyncFolders, action_root.join("sync_folders")
       autoload :WarnNetworks, action_root.join("warn_networks")
     end

@@ -1,4 +1,4 @@
-require "vagrant-openstack-plugin/config"
+require 'spec_helper'
 
 describe VagrantPlugins::OpenStack::Config do
   describe "defaults" do
