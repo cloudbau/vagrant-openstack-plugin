@@ -79,7 +79,7 @@ module VagrantPlugins
             # Usually there should only be one public IP
             :host => host,
             :port => 22,
-            :username => config.ssh_username
+            :username => 'root'
           }
         end
       end
