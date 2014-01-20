@@ -167,6 +167,24 @@ the remote machine over SSH.
 This is good enough for all built-in Vagrant provisioners (shell,
 chef, and puppet) to work!
 
+## Existing VMs
+
+It is possible to configure Vagrant such that it knows about an existing
+OpenStack VM, without needing to run `vagrant up`.  This may also be useful
+in being able to provision and control a VM from multiple locations, or else
+sharing this ability between users.
+
+To do this, locate your OpenStack VM ID (via the dashboard or otherwise) and
+place this value into a text file (next to your `Vagrantfile`) at:
+
+```
+.vagrant/machines/default/openstack/id
+```
+
+If using Vagrant in a multi-machine environment, then replace `default` with
+the relevant machine name. Once configured, the OpenStack provider now knows
+about your VM and other `vagrant` commands will execute as expected.
+
 ## Development
 
 To work on the `vagrant-openstack-plugin` plugin, clone this repository out, and use
