@@ -125,14 +125,12 @@ module VagrantPlugins
           b.use Call, IsPaused do |env, b1|
             unless env[:result]
               b1.use Call, IsSuspended do |env2, b2|
-                b1.use action_halt unless env2[:result]
+                b2.use RebootServer
               end
             end
 
-            b1.use Call, WaitForState, [:paused, :suspended], 120 do |env2, b2|
-              if env2[:result]
-                b2.use action_up
-              else
+            b1.use Call, WaitForState, [:active], 120 do |env2, b2|
+              unless env2[:result]
                 b2.use HardRebootServer
               end
             end
