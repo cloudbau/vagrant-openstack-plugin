@@ -26,6 +26,8 @@ en:
       The server is ready!
     rebooting_server: |-
       This server instance is rebooting!
+    snapshoting_server: |-
+          This server instance is snapshoting!
     resuming_server: |-
       The server instance has been resumed.
     rsync_folder: |-

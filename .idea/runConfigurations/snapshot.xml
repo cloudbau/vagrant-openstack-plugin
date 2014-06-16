@@ -1,0 +1,31 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="snapshot" type="RubyRunConfigurationType" factoryName="Ruby">
+    <module name="vagrant-openstack-plugin" />
+    <RUBY_RUN_CONFIG NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+    <RUBY_RUN_CONFIG NAME="WORK DIR" VALUE="$MODULE_DIR$/lib/vagrant-openstack-plugin" />
+    <RUBY_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="false" />
+    <RUBY_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="" />
+    <RUBY_RUN_CONFIG NAME="myPassParentEnvs" VALUE="true" />
+    <envs>
+      <env name="OS_TENANT_NAME" value="DevTest" />
+      <env name="OS_AUTH_URL" value="http://srv-openstack:5000/v2.0" />
+      <env name="OS_PASSWORD" value="c8k9tata" />
+      <env name="OS_USERNAME" value="loic.porte" />
+    </envs>
+    <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="true" />
+    <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+    <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov">
+      <COVERAGE_PATTERN ENABLED="true">
+        <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+      </COVERAGE_PATTERN>
+    </EXTENSION>
+    <EXTENSION ID="org.jetbrains.plugins.ruby.motion.run.MotionSimulatorRunExtension" />
+    <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="/Applications/Vagrant/bin/../embedded/gems/gems/vagrant-1.6.3/lib/vagrant/pre-rubygems.rb" />
+    <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="openstack snapshot" />
+    <RunnerSettings RunnerId="RubyDebugRunner" />
+    <RunnerSettings RunnerId="RubyRunner" />
+    <ConfigurationWrapper RunnerId="RubyDebugRunner" />
+    <ConfigurationWrapper RunnerId="RubyRunner" />
+    <method />
+  </configuration>
+</component>

@@ -196,6 +196,20 @@ module VagrantPlugins
         end
       end
 
+      def self.action_take_snapshot
+        Vagrant::Action::Builder.new.tap do |b|
+          b.use ConfigValidate
+          b.use Call, IsCreated do |env, b1|
+            if env[:result]
+              b1.use ConnectOpenStack
+              b1.use TakeSnapshot
+            else
+              b1.use MessageNotCreated
+            end
+          end
+        end
+      end
+
       # The autoload farm
       action_root = Pathname.new(File.expand_path("../action", __FILE__))
       autoload :ConnectOpenStack, action_root.join("connect_openstack")
@@ -219,6 +233,7 @@ module VagrantPlugins
       autoload :ResumeServer, action_root.join("resume_server")
       autoload :SuspendServer, action_root.join("suspend_server")      
       autoload :SyncFolders, action_root.join("sync_folders")
+      autoload :TakeSnapshot, action_root.join("take_snapshot")
       autoload :WaitForState, action_root.join("wait_for_state")
       autoload :WarnNetworks, action_root.join("warn_networks")
     end
