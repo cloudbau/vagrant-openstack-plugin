@@ -125,14 +125,12 @@ module VagrantPlugins
           b.use Call, IsPaused do |env, b1|
             unless env[:result]
               b1.use Call, IsSuspended do |env2, b2|
-                b1.use action_halt unless env2[:result]
+                b2.use RebootServer
               end
             end
 
-            b1.use Call, WaitForState, [:paused, :suspended], 120 do |env2, b2|
-              if env2[:result]
-                b2.use action_up
-              else
+            b1.use Call, WaitForState, [:active], 120 do |env2, b2|
+              unless env2[:result]
                 b2.use HardRebootServer
               end
             end
@@ -198,6 +196,34 @@ module VagrantPlugins
         end
       end
 
+      def self.action_take_snapshot
+        Vagrant::Action::Builder.new.tap do |b|
+          b.use ConfigValidate
+          b.use Call, IsCreated do |env, b1|
+            if env[:result]
+              b1.use ConnectOpenStack
+              b1.use Call, IsSnapshoting do |env,b2|
+                if env[:result]
+                  b2.use MessageSnapshotInProgress
+                else
+                  b2.use TakeSnapshot
+                end
+
+                b2.use Call, WaitForTask, [nil], 1200 do |env3, b3|
+                  if env3[:result]
+                    b3.use MessageSnapshotDone
+                  end
+                end
+
+
+              end
+            else
+              b1.use MessageNotCreated
+            end
+          end
+        end
+      end
+
       # The autoload farm
       action_root = Pathname.new(File.expand_path("../action", __FILE__))
       autoload :ConnectOpenStack, action_root.join("connect_openstack")
@@ -206,12 +232,15 @@ module VagrantPlugins
       autoload :HardRebootServer, action_root.join("hard_reboot_server")
       autoload :IsCreated, action_root.join("is_created")
       autoload :IsPaused, action_root.join("is_paused")
+      autoload :IsSnapshoting, action_root.join("is_snapshoting")
       autoload :IsSuspended, action_root.join("is_suspended")
       autoload :MessageAlreadyCreated, action_root.join("message_already_created")
       autoload :MessageAlreadyPaused, action_root.join("message_already_paused")
       autoload :MessageAlreadySuspended, action_root.join("message_already_suspended")
       autoload :MessageNotCreated, action_root.join("message_not_created")
       autoload :MessageNotSuspended, action_root.join("message_not_suspended")
+      autoload :MessageSnapshotDone, action_root.join("message_snapshot_done")
+      autoload :MessageSnapshotInProgress, action_root.join("message_snapshot_in_progress")
       autoload :MessageWillNotDestroy, action_root.join("message_will_not_destroy")
       autoload :MessageServerRunning, action_root.join("message_server_running")
       autoload :PauseServer, action_root.join("pause_server")
@@ -221,7 +250,9 @@ module VagrantPlugins
       autoload :ResumeServer, action_root.join("resume_server")
       autoload :SuspendServer, action_root.join("suspend_server")      
       autoload :SyncFolders, action_root.join("sync_folders")
+      autoload :TakeSnapshot, action_root.join("take_snapshot")
       autoload :WaitForState, action_root.join("wait_for_state")
+      autoload :WaitForTask, action_root.join("wait_for_task")
       autoload :WarnNetworks, action_root.join("warn_networks")
     end
   end

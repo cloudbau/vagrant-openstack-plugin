@@ -171,6 +171,13 @@ the remote machine over SSH.
 This is good enough for all built-in Vagrant provisioners (shell,
 chef, and puppet) to work!
 
+## Command
+
+### Snapshot
+`vagrant openstack snapshot <vmname> -n <snapshotname>`
+
+Take snapshot of ***vmname*** with name ***snapshotname***
+
 ## Contributors
 
 - [mitchellh](https://github.com/mitchellh)

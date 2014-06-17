@@ -12,25 +12,33 @@ end
 
 module VagrantPlugins
   module OpenStack
-    class Plugin < Vagrant.plugin("2")
-      name "OpenStack Cloud"
-      description <<-DESC
+    module Action
+      class Plugin < Vagrant.plugin("2")
+        name "OpenStack Cloud"
+        description <<-DESC
       This plugin enables Vagrant to manage machines in OpenStack Cloud.
-      DESC
+        DESC
 
-      config(:openstack, :provider) do
-        require_relative "config"
-        Config
-      end
+        config(:openstack, :provider) do
+          require_relative "config"
+          Config
+        end
 
-      provider(:openstack, parallel: true) do
-        # Setup some things
-        OpenStack.init_i18n
-        OpenStack.init_logging
+        provider(:openstack, parallel: true) do
+          # Setup some things
+          OpenStack.init_i18n
+          OpenStack.init_logging
 
-        # Load the actual provider
-        require_relative "provider"
-        Provider
+          # Load the actual provider
+          require_relative "provider"
+          Provider
+        end
+
+        command "openstack" do
+          require_relative "command"
+          Command
+        end
+
       end
     end
   end

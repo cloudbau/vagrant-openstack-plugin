@@ -26,6 +26,12 @@ en:
       The server is ready!
     rebooting_server: |-
       This server instance is rebooting!
+    snapshoting_server: |-
+      This server instance is snapshoting!
+    snapshot_done: |-
+      Snapshot is ok
+    snapshot_in_progress: |-
+      Snapshot is in progress
     resuming_server: |-
       The server instance has been resumed.
     rsync_folder: |-
@@ -91,6 +97,12 @@ en:
         The server is up and running. Run `vagrant ssh` to access it.
       short_build: |-
         building
+      short_suspended: |-
+        suspended
+      short_paused: |-
+        paused
+      short_shutoff: |-
+        shutdown
       long_build: |-
         The server is currently being built. You must wait for this to
         complete before you can access it. You can delete the server, however,
