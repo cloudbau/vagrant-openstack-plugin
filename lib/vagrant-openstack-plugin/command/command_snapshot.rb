@@ -15,7 +15,7 @@ module VagrantPlugins
           opts = OptionParser.new do |opts|
             opts.banner = "Enters openstack"
             opts.separator ""
-            opts.separator "Usage: vagrant openstack ip <vmname> -n <snapshotname>"
+            opts.separator "Usage: vagrant openstack snapshot <vmname> -n <snapshotname>"
 
 
             opts.on( '-n', '--name NAME', 'snapshotname' ) do |name|
@@ -31,8 +31,9 @@ module VagrantPlugins
 
 
           with_target_vms(argv, :reverse => true) do |vm|
-            env = vm.action(:take_snapshot,options)
-            puts env[:openstack_ip]
+            if vm.provider.to_s == VagrantPlugins::OpenStack::Provider.new(nil).to_s
+              vm.action(:take_snapshot,options)
+            end
           end
         end
       end

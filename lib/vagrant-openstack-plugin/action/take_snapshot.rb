@@ -13,8 +13,7 @@ module VagrantPlugins
         def call(env)
           if env[:machine].id
             env[:ui].info(I18n.t("vagrant_openstack.snapshoting_server"))
-
-            puts
+            infos = env[:openstack_compute].get_server_details(env[:machine].id)
             env[:openstack_compute].create_image(env[:machine].id,env[:openstack_snapshot_name] || 'snapshot')
 
           end

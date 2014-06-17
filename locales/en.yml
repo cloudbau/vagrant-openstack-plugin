@@ -27,7 +27,11 @@ en:
     rebooting_server: |-
       This server instance is rebooting!
     snapshoting_server: |-
-          This server instance is snapshoting!
+      This server instance is snapshoting!
+    snapshot_done: |-
+      Snapshot is ok
+    snapshot_in_progress: |-
+      Snapshot is in progress
     resuming_server: |-
       The server instance has been resumed.
     rsync_folder: |-

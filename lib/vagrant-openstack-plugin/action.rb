@@ -202,7 +202,21 @@ module VagrantPlugins
           b.use Call, IsCreated do |env, b1|
             if env[:result]
               b1.use ConnectOpenStack
-              b1.use TakeSnapshot
+              b1.use Call, IsSnapshoting do |env,b2|
+                if env[:result]
+                  b2.use MessageSnapshotInProgress
+                else
+                  b2.use TakeSnapshot
+                end
+
+                b2.use Call, WaitForTask, [nil], 1200 do |env3, b3|
+                  if env3[:result]
+                    b3.use MessageSnapshotDone
+                  end
+                end
+
+
+              end
             else
               b1.use MessageNotCreated
             end
@@ -218,12 +232,15 @@ module VagrantPlugins
       autoload :HardRebootServer, action_root.join("hard_reboot_server")
       autoload :IsCreated, action_root.join("is_created")
       autoload :IsPaused, action_root.join("is_paused")
+      autoload :IsSnapshoting, action_root.join("is_snapshoting")
       autoload :IsSuspended, action_root.join("is_suspended")
       autoload :MessageAlreadyCreated, action_root.join("message_already_created")
       autoload :MessageAlreadyPaused, action_root.join("message_already_paused")
       autoload :MessageAlreadySuspended, action_root.join("message_already_suspended")
       autoload :MessageNotCreated, action_root.join("message_not_created")
       autoload :MessageNotSuspended, action_root.join("message_not_suspended")
+      autoload :MessageSnapshotDone, action_root.join("message_snapshot_done")
+      autoload :MessageSnapshotInProgress, action_root.join("message_snapshot_in_progress")
       autoload :MessageWillNotDestroy, action_root.join("message_will_not_destroy")
       autoload :MessageServerRunning, action_root.join("message_server_running")
       autoload :PauseServer, action_root.join("pause_server")
@@ -235,6 +252,7 @@ module VagrantPlugins
       autoload :SyncFolders, action_root.join("sync_folders")
       autoload :TakeSnapshot, action_root.join("take_snapshot")
       autoload :WaitForState, action_root.join("wait_for_state")
+      autoload :WaitForTask, action_root.join("wait_for_task")
       autoload :WarnNetworks, action_root.join("warn_networks")
     end
   end
