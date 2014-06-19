@@ -49,6 +49,8 @@ module VagrantPlugins
           unless config.networks
             if config.network
               config.networks = [ config.network ]
+            else
+              config.networks = []
             end
           end
 
