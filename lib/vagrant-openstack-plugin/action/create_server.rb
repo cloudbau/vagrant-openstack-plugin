@@ -59,12 +59,30 @@ module VagrantPlugins
             env[:ui].info(I18n.t("vagrant_openstack.finding_network"))
             options[:nics] = Array.new
             config.networks.each do |net|
-              network = find_matching(env[:openstack_network].networks, net)
-              options[:nics] << {"net_id" => network.id} if network
+
+              network_name = nil
+              ip_address = nil
+
+              if net.instance_of?(Hash)
+                network_name = net[:name]
+                ip_address = net[:v4_fixed_ip]
+              else
+                network_name = net
+              end
+
+              network = find_matching(env[:openstack_network].networks, network_name)
+
+              if network
+                current = { :net_id => network.id }
+                if ip_address
+                  current[:v4_fixed_ip] = ip_address
+                end
+                options[:nics] << current
+              end
             end
             env[:ui].info("options[:nics]: #{options[:nics]}")
           end
-          
+
           # Output the settings we're going to use to the user
           env[:ui].info(I18n.t("vagrant_openstack.launching_server"))
           env[:ui].info(" -- Flavor: #{flavor.name}")
