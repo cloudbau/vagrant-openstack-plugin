@@ -94,6 +94,15 @@ module VagrantPlugins
       # @return [String]
       attr_accessor :floating_ip_pool
 
+      # Select "floating_ip_index"th floating IP (0 is first) when
+      # floating_ip==:auto which is useful when the provider is run in
+      # parallel. (Otherwise all parallel :auto lookups give the same IP)
+      # NOTE: floating_ip_index has no effect if floating_ip_pool is
+      # specified.
+      #
+      # @return [Fixnum]
+      attr_accessor :floating_ip_index
+
       # The region to specify when the OpenStack cloud has multiple regions
       #
       # @return [String]
@@ -141,6 +150,7 @@ module VagrantPlugins
         @user_data = UNSET_VALUE
         @floating_ip = UNSET_VALUE
         @floating_ip_pool = UNSET_VALUE
+        @floating_ip_index = UNSET_VALUE
         @region = UNSET_VALUE
         @proxy = UNSET_VALUE
         @ssl_verify_peer = UNSET_VALUE
@@ -180,6 +190,7 @@ module VagrantPlugins
         @user_data = "" if @user_data == UNSET_VALUE
         @floating_ip = nil if @floating_ip == UNSET_VALUE
         @floating_ip = nil if @floating_ip_pool == UNSET_VALUE
+        @floating_ip_index = 0 if @floating_ip_index == UNSET_VALUE
 
         @disks = nil if @disks == UNSET_VALUE
 
