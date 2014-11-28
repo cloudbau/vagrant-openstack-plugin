@@ -24,7 +24,7 @@ module VagrantPlugins
             if server
               ip = server.floating_ip_address
               server.destroy
-              if machine.provider_config.floating_ip_pool
+              if machine.provider_config.floating_ip_pool && machine.provider_config.floating_ip == "auto"
                 address = env[:openstack_compute].list_all_addresses.body["floating_ips"].find{|i| i["ip"] == ip}
                 if address
                   env[:openstack_compute].release_address(address["id"])
