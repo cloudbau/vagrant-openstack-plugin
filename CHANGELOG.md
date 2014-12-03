@@ -1,5 +1,15 @@
 # Changelog for vagrant-openstack-plugin
 
+## 0.11.0
+
+- Merge pull request #97 from cbaenziger/issue_96_fix [view commit](http://github.com///commit/36295904ffb65d7461870a97e561c470fdedbbe5)
+- Merge pull request #95 from cbaenziger/volume_support [view commit](http://github.com///commit/3d3fb8d6ae3b3115abea725820ac4a205c814070)
+- Retry server deletes until we are sure the VM is dead -- only then remove IP's and volumes [view commit](http://github.com///commit/8799e70521a4ad4c4d1a5aa2a3ea42b83c042c38)
+- Update README for more volume related material [view commit](http://github.com///commit/c0e6e0afae67a1e63095f917d50b7c3aa3655547)
+- Fix to prevent stack trace failing to find VM, if destroying a non-existant VM [view commit](http://github.com///commit/7632b70a9f2c5af3a6d46a31b2ce4beb1bc9217b)
+- Use same check as connect.rb for Vagrantfile disks section [view commit](http://github.com///commit/bd440fbacd7abc7914629431edd74e73cad71f95)
+- Fix issue finding volumes if running vagrant destroy after server is destroyed [view commit](http://github.com///commit/8629390d724cdaa611504121bca64690e191cdba)
+
 ## 0.10.0
 
 - Merge pull request #84 from cbaenziger/volume_support [view commit](http://github.com///commit/fc613a49cb5b2fecf2255d3050d1bff68956735d)

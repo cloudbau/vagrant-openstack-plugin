@@ -143,7 +143,7 @@ module VagrantPlugins
               
               # Process disks if provided
               volumes = Array.new
-              if config.has_key?("disks") and not config.disks.empty?
+              if config.disks && !config.disks.empty?
                 env[:ui].info(I18n.t("vagrant_openstack.creating_disks"))
                 config.disks.each do |disk|
                   volume = env[:openstack_compute].volumes.all.find{|v| v.name ==
