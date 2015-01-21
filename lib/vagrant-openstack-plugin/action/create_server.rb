@@ -68,7 +68,7 @@ module VagrantPlugins
                 # Match the OpenStack network to a corresponding
                 # config.vm.network option.  If there is one, use that for its
                 # IP address.
-                config_network = env[:machine].config.vm.networks[i]
+                config_network = env[:machine].config.vm.networks[i+1]
                 if config_network
                   ip_address = config_network[1][:ip]
                   current[:v4_fixed_ip] = ip_address if ip_address
