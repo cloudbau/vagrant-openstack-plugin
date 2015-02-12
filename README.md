@@ -77,7 +77,7 @@ Vagrant.configure("2") do |config|
     os.availability_zone  = "az0001"           # optional
     os.security_groups    = ['ssh', 'http']    # optional
     os.tenant             = "YOUR TENANT_NAME" # optional
-    os.floating_ip        = "33.33.33.33"      # optional (The floating IP to assign for this instance)
+    os.floating_ip        = "33.33.33.33"      # optional (The floating IP to assign for this instance. Can be set to :auto - no quotes.)
     os.floating_ip_pool   = "public"           # optional (The floating IP pool to allocate addresses from, if floating_ip = :auto)
 
     os.disks              = [                  # optional
@@ -152,7 +152,7 @@ This provider exposes quite a few provider-specific configuration options:
 * `proxy` - HTTP proxy. When behind a firewall override this value for API access.
 * `ssl_verify_peer` - sets the ssl_verify_peer on the underlying excon connection - useful for self signed certs etc.
 * `floating_ip` - Floating ip. The floating IP to assign for this instance. If
-  set to :auto, then this assigns any available floating IP to the instance.
+  set to :auto (no quotes), then this assigns any available floating IP to the instance.
 * `floating_ip_pool` - Floating ip pool to allocate IP addresses from, if
   floating_ip is set to :auto.  Previously allocated addresses will not be
   used, and addresses allocated here will be released when the VM is destroyed.
