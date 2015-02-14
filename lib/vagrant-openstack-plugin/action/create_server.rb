@@ -113,6 +113,11 @@ module VagrantPlugins
               server.wait_for(5) { ready? }
               # Once the server is up and running assign a floating IP if we have one
               floating_ip = config.floating_ip
+
+              # If servers are being created in parallel, allow picking floating IPs other than the first
+              # (if unset in the configuration file, config.floating_ip_index defaults to 0)
+              floating_ip_index = config.floating_ip_index
+
               # try to automatically associate a floating IP
               if floating_ip && floating_ip.to_sym == :auto
                 if config.floating_ip_pool
@@ -126,7 +131,10 @@ module VagrantPlugins
                 else
                   addresses = env[:openstack_compute].addresses
                   puts addresses
-                  free_floating = addresses.find_index {|a| a.fixed_ip.nil?}
+                  # get the "floating_ip_index"th free floating_ip index
+                  # (if floating_ip_index is too large, free_floating will be set to nil)
+                  free_floating = addresses.each_with_index.select { |a,i|
+                                  a.fixed_ip.nil? }.map { |pair| pair[1] }[floating_ip_index]
                   if free_floating.nil?
                     raise Errors::FloatingIPNotFound
                   else
