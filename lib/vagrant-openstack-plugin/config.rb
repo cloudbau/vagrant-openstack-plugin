@@ -179,7 +179,7 @@ module VagrantPlugins
         @tenant = nil if @tenant == UNSET_VALUE
         @user_data = "" if @user_data == UNSET_VALUE
         @floating_ip = nil if @floating_ip == UNSET_VALUE
-        @floating_ip = nil if @floating_ip_pool == UNSET_VALUE
+        @floating_ip_pool = nil if @floating_ip_pool == UNSET_VALUE
 
         @disks = nil if @disks == UNSET_VALUE
 
