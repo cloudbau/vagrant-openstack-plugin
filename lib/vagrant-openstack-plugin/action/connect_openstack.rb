@@ -41,7 +41,7 @@ module VagrantPlugins
             :openstack_api_key  => api_key,
             :openstack_auth_url => endpoint,
             :openstack_tenant   => tenant,
-	    :openstack_domain_name => domain_name,
+            :openstack_domain_name => domain_name,
             :openstack_region   => region
           }
 
@@ -68,7 +68,7 @@ module VagrantPlugins
               :provider => :openstack,
               :connection_options => connection_options,
               :openstack_username => username,
- 	      :openstack_user_domain => user_domain,
+              :openstack_user_domain => user_domain,
               :openstack_api_key => api_key,
               :openstack_auth_url => endpoint,
               :openstack_tenant => tenant,
