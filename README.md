@@ -60,6 +60,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider :openstack do |os|
     os.username     = "YOUR USERNAME"          # e.g. "#{ENV['OS_USERNAME']}"
     os.api_key      = "YOUR API KEY"           # e.g. "#{ENV['OS_PASSWORD']}"
+    os.user_domain  = "default"                # optional - Keystone 3 user domain
     os.flavor       = /m1.tiny/                # Regex or String
     os.image        = /Ubuntu/                 # Regex or String
     os.endpoint     = "KEYSTONE AUTH URL"      # e.g. "#{ENV['OS_AUTH_URL']}/tokens"
