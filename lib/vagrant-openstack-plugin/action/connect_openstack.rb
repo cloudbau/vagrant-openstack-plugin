@@ -21,7 +21,6 @@ module VagrantPlugins
           username = config.username
           user_domain = config.user_domain
           tenant = config.tenant
-          domain_name = config.domain_name
           region = config.region
 
           # Pass proxy config down into the Fog::Connection object using
@@ -41,7 +40,6 @@ module VagrantPlugins
             :openstack_api_key  => api_key,
             :openstack_auth_url => endpoint,
             :openstack_tenant   => tenant,
-            :openstack_domain_name => domain_name,
             :openstack_region   => region
           }
 
