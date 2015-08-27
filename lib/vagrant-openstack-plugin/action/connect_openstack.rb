@@ -19,6 +19,7 @@ module VagrantPlugins
           api_key  = config.api_key
           endpoint = config.endpoint
           username = config.username
+          user_domain = config.user_domain
           tenant = config.tenant
           region = config.region
 
@@ -35,6 +36,7 @@ module VagrantPlugins
             :provider           => :openstack,
             :connection_options => connection_options,
             :openstack_username => username,
+            :openstack_user_domain => user_domain,
             :openstack_api_key  => api_key,
             :openstack_auth_url => endpoint,
             :openstack_tenant   => tenant,
@@ -51,6 +53,7 @@ module VagrantPlugins
               :provider => :openstack,
               :connection_options => connection_options,
               :openstack_username => username,
+              :openstack_user_domain => user_domain,
               :openstack_api_key => api_key,
               :openstack_auth_url => endpoint,
               :openstack_tenant => tenant,
@@ -63,6 +66,7 @@ module VagrantPlugins
               :provider => :openstack,
               :connection_options => connection_options,
               :openstack_username => username,
+              :openstack_user_domain => user_domain,
               :openstack_api_key => api_key,
               :openstack_auth_url => endpoint,
               :openstack_tenant => tenant,

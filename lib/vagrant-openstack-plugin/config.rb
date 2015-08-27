@@ -32,6 +32,11 @@ module VagrantPlugins
       # @return [String]
       attr_accessor :username
 
+      # The user's OpenStack domain
+      #
+      # @return [String]
+      attr_accessor :user_domain
+
       # The name of the keypair to use.
       #
       # @return [String]
@@ -82,6 +87,11 @@ module VagrantPlugins
       #
       # @return [String]
       attr_accessor :tenant
+
+      # The domain for the tenant
+      #
+      # @return [String]
+      attr_accessor :domain_name
 
       # User data to be sent to the newly created OpenStack instance. Use this
       # e.g. to inject a script at boot time.
