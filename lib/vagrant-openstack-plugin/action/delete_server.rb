@@ -52,7 +52,7 @@ module VagrantPlugins
                 end
               end
 
-              if machine.provider_config.floating_ip_pool && machine.provider_config.floating_ip == ":auto"
+              if machine.provider_config.floating_ip_pool && machine.provider_config.floating_ip.to_s == 'auto'
                 address = env[:openstack_compute].list_all_addresses.body["floating_ips"].find{|i| i["ip"] == ip}
                 if address
                   env[:openstack_compute].release_address(address["id"])
