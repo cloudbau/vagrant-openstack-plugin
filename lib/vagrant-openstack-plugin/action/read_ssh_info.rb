@@ -1,5 +1,6 @@
 require "log4r"
 require "ipaddr"
+require "resolv"
 
 module VagrantPlugins
   module OpenStack
@@ -75,7 +76,7 @@ module VagrantPlugins
                     host = ip.to_s
                     @logger.debug("Using the first available #{config.ssh_ip_family} IP address: #{host}.")
                     break
-                  end
+	          end
                 end
               end
             end
@@ -87,6 +88,25 @@ module VagrantPlugins
           if host.nil? or host.empty?
             @logger.debug("No valid SSH host could be found.")
             raise Errors::SSHNoValidHost
+          end
+
+	  # if we specify a specific ssh_ip_family, we need to verify/enforce
+          if config.ssh_ip_family
+            # get the proper regex for the IP family
+            net_regex = Resolv::IPv4::Regex
+            if config.ssh_ip_family == 'ipv6'
+              net_regex = Resolv::IPv6::Regex
+            end
+
+	    # verify we have a match
+            if not host =~ net_regex
+	      # if no match, just iterate over server.ip_addresses until we find one
+	      for ip in server.ip_addresses
+                if ip =~ net_regex
+                  host = ip
+	        end
+	      end
+	    end
           end
 
           # Read the DNS info
