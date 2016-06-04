@@ -63,7 +63,7 @@ module VagrantPlugins
               volumes.each do |compute_volume|
                 volume = env[:openstack_volume].volumes.get(compute_volume["id"])
                 if volume
-                  env[:ui].info("Deleting volume: #{volume.display_name}")
+                  env[:ui].info("Deleting volume: #{volume.id}")
                   begin
                     volume.destroy
                   rescue Excon::Errors::Error => e
