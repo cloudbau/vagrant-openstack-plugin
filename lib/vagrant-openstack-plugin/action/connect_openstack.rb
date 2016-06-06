@@ -21,6 +21,9 @@ module VagrantPlugins
           username = config.username
           tenant = config.tenant
           region = config.region
+          project_name = config.project_name
+          project_domain = config.project_domain
+          user_domain = config.user_domain
 
           # Pass proxy config down into the Fog::Connection object using
           # the `connection_options` hash.
@@ -32,13 +35,16 @@ module VagrantPlugins
           # Prepare connection parameters for use with fog service
           # initialization (compute, storage, orchestration, ...).
           env[:fog_openstack_params] = {
-            :provider           => :openstack,
+            :provider => :openstack,
             :connection_options => connection_options,
             :openstack_username => username,
-            :openstack_api_key  => api_key,
+            :openstack_api_key => api_key,
             :openstack_auth_url => endpoint,
-            :openstack_tenant   => tenant,
-            :openstack_region   => region
+            :openstack_tenant => tenant,
+            :openstack_region => region,
+            :openstack_project_name => project_name,
+            :openstack_project_domain => project_domain,
+            :openstack_user_domain => user_domain
           }
 
           @logger.info("Connecting to OpenStack...")
@@ -54,7 +60,10 @@ module VagrantPlugins
               :openstack_api_key => api_key,
               :openstack_auth_url => endpoint,
               :openstack_tenant => tenant,
-              :openstack_region => region
+              :openstack_region => region,
+              :openstack_project_name => project_name,
+              :openstack_project_domain => project_domain,
+              :openstack_user_domain => user_domain
             })
           end
 
@@ -66,7 +75,10 @@ module VagrantPlugins
               :openstack_api_key => api_key,
               :openstack_auth_url => endpoint,
               :openstack_tenant => tenant,
-              :openstack_region => region
+              :openstack_region => region,
+              :openstack_project_name => project_name,
+              :openstack_project_domain => project_domain,
+              :openstack_user_domain => user_domain
             })
           end
 

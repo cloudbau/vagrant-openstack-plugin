@@ -58,13 +58,16 @@ Vagrant.configure("2") do |config|
   config.ssh.private_key_path = "~/.ssh/id_rsa"
 
   config.vm.provider :openstack do |os|
-    os.username     = "YOUR USERNAME"          # e.g. "#{ENV['OS_USERNAME']}"
-    os.api_key      = "YOUR API KEY"           # e.g. "#{ENV['OS_PASSWORD']}"
-    os.flavor       = /m1.tiny/                # Regex or String
-    os.image        = /Ubuntu/                 # Regex or String
-    os.endpoint     = "KEYSTONE AUTH URL"      # e.g. "#{ENV['OS_AUTH_URL']}/tokens"
-    os.keypair_name = "YOUR KEYPAIR NAME"      # as stored in Nova
-    os.ssh_username = "SSH USERNAME"           # login for the VM
+    os.username       = "YOUR USERNAME"          # e.g. "#{ENV['OS_USERNAME']}"
+    os.api_key        = "YOUR API KEY"           # e.g. "#{ENV['OS_PASSWORD']}"
+    os.flavor         = /m1.tiny/                # Regex or String
+    os.image          = /Ubuntu/                 # Regex or String
+    os.endpoint       = "KEYSTONE AUTH URL"      # e.g. "#{ENV['OS_AUTH_URL']}/tokens"
+    os.project_name   = "PROJECT NAME"           # required when using Keystone V3
+    os.project_domain = "PROJECT DOMAIN NAME"    # required when using Keystone V3
+    os.user_domain    = "USER DOMAIN NAME"       # required when using Keystone V3
+    os.keypair_name   = "YOUR KEYPAIR NAME"      # as stored in Nova
+    os.ssh_username   = "SSH USERNAME"           # login for the VM
 
     os.ssh_ip_family = "ipv6"                  # IP address family
 

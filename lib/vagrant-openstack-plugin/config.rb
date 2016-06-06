@@ -104,6 +104,21 @@ module VagrantPlugins
       # @return [String]
       attr_accessor :region
 
+      # The region to specify when the OpenStack cloud has multiple regions
+      #
+      # @return [String]
+      attr_accessor :project_name
+
+      # The region to specify when the OpenStack cloud has multiple regions
+      #
+      # @return [String]
+      attr_accessor :project_domain
+
+      # The region to specify when the OpenStack cloud has multiple regions
+      #
+      # @return [String]
+      attr_accessor :user_domain
+
       # The proxy to specify when making connection to OpenStack API.
       #
       # @return [String]
@@ -148,6 +163,9 @@ module VagrantPlugins
         @floating_ip = UNSET_VALUE
         @floating_ip_pool = UNSET_VALUE
         @region = UNSET_VALUE
+        @project_name = UNSET_VALUE
+        @project_domain = UNSET_VALUE
+        @user_domain = UNSET_VALUE
         @proxy = UNSET_VALUE
         @ssl_verify_peer = UNSET_VALUE
         @disks = UNSET_VALUE
@@ -187,6 +205,11 @@ module VagrantPlugins
         @user_data = "" if @user_data == UNSET_VALUE
         @floating_ip = nil if @floating_ip == UNSET_VALUE
         @floating_ip_pool = nil if @floating_ip_pool == UNSET_VALUE
+
+        @region = nil if @region == UNSET_VALUE
+        @project_name = nil if @project_name == UNSET_VALUE
+        @project_domain = nil if @project_domain == UNSET_VALUE
+        @user_domain = nil if @user_domain == UNSET_VALUE
 
         @disks = nil if @disks == UNSET_VALUE
 
