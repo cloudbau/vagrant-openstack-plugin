@@ -1,6 +1,5 @@
 require "fog"
 require "log4r"
-
 require 'vagrant/util/retryable'
 
 module VagrantPlugins
@@ -44,7 +43,7 @@ module VagrantPlugins
             :os_scheduler_hints => config.scheduler_hints,
             :availability_zone => config.availability_zone
           }
-          
+
           # Fallback to only one network, otherwise `config.networks` overrides
           unless config.networks
             if config.network
@@ -79,7 +78,7 @@ module VagrantPlugins
             end
             env[:ui].info("options[:nics]: #{options[:nics]}")
           end
-         
+
           # Output the settings we're going to use to the user
           env[:ui].info(I18n.t("vagrant_openstack.launching_server"))
           env[:ui].info(" -- Flavor: #{flavor.name}")
@@ -113,79 +112,74 @@ module VagrantPlugins
               server.wait_for(5) { ready? }
               # Once the server is up and running assign a floating IP if we have one
               floating_ip = config.floating_ip
-              # try to automatically allocate and  associate a floating IP
-              if floating_ip && floating_ip.to_sym == :auto
-                if config.floating_ip_pool
-                  env[:ui].info("Allocating floating IP address from pool: #{config.floating_ip_pool}")
-                  address = env[:openstack_compute].allocate_address(config.floating_ip_pool).body["floating_ip"]
-                  if address["ip"].nil?
-                    raise Errors::FloatingIPNotAllocated
+              # try to automatically allocate and associate a floating IP
+              if floating_ip
+                case floating_ip.to_sym
+                when :auto
+                  if config.floating_ip_pool
+                    env[:ui].info("Allocating floating IP address from pool: #{config.floating_ip_pool}")
+                    address = env[:openstack_compute].allocate_address(config.floating_ip_pool).body["floating_ip"]
+                    if address["ip"].nil?
+                      raise Errors::FloatingIPNotAllocated
+                    else
+                      floating_ip = address["ip"]
+                    end
                   else
-                    floating_ip = address["ip"]
+                    addresses = env[:openstack_compute].addresses
+                    free_floating = addresses.find_index {|a| a.fixed_ip.nil?}
+                    if free_floating.nil?
+                      raise Errors::FloatingIPNotFound
+                    else
+                      floating_ip = addresses[free_floating].ip
+                      env[:ui].info("Found floating IP address #{address.attributes[:ip]} from pool #{config.floating_ip_pool}")
+                    end
                   end
-                else
-                  addresses = env[:openstack_compute].addresses
-                  free_floating = addresses.find_index {|a| a.fixed_ip.nil?}
-                  if free_floating.nil?
-                    raise Errors::FloatingIPNotFound
-                  else
-                    floating_ip = addresses[free_floating].ip
-                  end
-                end
-              end
-               
-              # try to automatically associate the next available unassigned ip in the given pool
-              if floating_ip && floating_ip.to_sym == :associate_unassigned
-                if config.floating_ip_pool
-                  env[:ui].info("Associating floating IP address from pool: #{config.floating_ip_pool}")
-                  addresses = env[:openstack_compute].addresses
+                when :associate_unassigned
+                  if config.floating_ip_pool
+                    env[:ui].info("Associating floating IP address from pool: #{config.floating_ip_pool}")
+                    addresses = env[:openstack_compute].addresses
 
-                  # grab the next available IP in this pool which is not currently allocated:
-                  address = env[:openstack_compute].addresses.find { |thisone|
+                    # grab the next available IP in this pool which is not currently allocated:
+                    address = env[:openstack_compute].addresses.find { |thisone|
                       (thisone.attributes[:pool].eql? config.floating_ip_pool and thisone.attributes[:instance_id].nil?)
-                  }
-
-                  if address.nil?
-                    raise Errors::FloatingUnassignedIPNotFound
-                  else
+                    }
+                    if address.nil?
+                      raise Errors::FloatingUnassignedIPNotFound
+                    else
                       floating_ip = address.attributes[:ip]
-                  end
-                  result = env[:openstack_compute].associate_address(server.id,floating_ip)
-                  if result[:status] != 202
-                    raise Errors::FloatingIPFailedAssociate
+                      env[:ui].info("Found unassigned floating IP address #{address.attributes[:ip]} in pool #{config.floating_ip_pool}")
+                    end
                   else
-                    env[:ui].info("Found and Associated floating IP address #{address.attributes[:ip]} from pool #{config.floating_ip_pool}")
+                    raise Errors::FloatingUnassignedRequiresPool
                   end
-                else
-                  raise Errors::FloatingUnassignedRequiresPool
                 end
               end
-                
+
               if floating_ip
                 floater = env[:openstack_compute].addresses.find { |thisone| thisone.ip.eql? floating_ip }
                 floater.server = server
               end
-              
+
               # Process disks if provided
               volumes = Array.new
               if config.disks && !config.disks.empty?
                 env[:ui].info(I18n.t("vagrant_openstack.creating_disks"))
                 config.disks.each do |disk|
                   volume = env[:openstack_compute].volumes.all.find{|v| v.name ==
-                                                          disk["name"] and 
-                                                        v.description ==
-                                                          disk["description"] and
-                                                        v.size ==
-                                                          disk["size"] and
-                                                        v.ready? }
+                    disk["name"] and
+                    v.description ==
+                    disk["description"] and
+                    v.size ==
+                    disk["size"] and
+                    v.ready? }
                   if volume
                     env[:ui].info("re-using volume: #{disk["name"]}")
                     disk["volume_id"] = volume.id
                   else
                     env[:ui].info("creating volume: #{disk["name"]}")
                     disk["volume_id"] = env[:openstack_compute].create_volume(
-                                         disk["name"], disk["description"], disk["size"]).\
-                                         data[:body]["volume"]["id"]
+                    disk["name"], disk["description"], disk["size"]).\
+                    data[:body]["volume"]["id"]
                     volumes << { :id => disk["volume_id"] }
                   end
 
@@ -196,10 +190,10 @@ module VagrantPlugins
                     nova_offset = 1
                     # Increase counter in case we have swap or ephemeral disks.
                     if flavor.swap != 0
-                        nova_offset += 1
+                      nova_offset += 1
                     end
                     if flavor.ephemeral != 0
-                        nova_offset += 1
+                      nova_offset += 1
                     end
                     server.attach_volume(disk["volume_id"], "/dev/vd#{("c".."z").to_a[server.volume_attachments.length + nova_offset]}")
                     server.wait_for{ volume_attachments.any?{|vol| vol["id"]==disk["volume_id"]} }
@@ -211,7 +205,7 @@ module VagrantPlugins
 
               # store this so we can use it later
               env[:floating_ip] = floating_ip
-              
+
             rescue RuntimeError => e
               # If we don't have an error about a state transition, then
               # we just move on.
